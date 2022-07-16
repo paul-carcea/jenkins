@@ -3,7 +3,7 @@ pipeline {
 		//agent any
 		agent { 
 			//docker { image 'maven:3.6.3' }
-			docker { image 'node:13.8' }
+			docker { image 'node:18-alpine3.15' }
 		}
 		stages {
 			stage('Build') {

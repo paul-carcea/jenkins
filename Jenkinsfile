@@ -4,15 +4,15 @@ pipeline {
 			//agent { docker { image 'maven:3.6.3' } }
 			//agent { docker { image 'node:18-alpine3.15' } }
 		environment {
-			//dockerHome = tool 'MyDocker'
+			dockerHome = tool 'MyDocker'
 			mavenHome = tool 'MyMaven'
-			PATH = "$mavenHome/bin:$PATH"//$dockerHome/bin:$PATH"
+			PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
 		}
 		stages {
 			stage('Checkout') {
 				steps {
 					sh 'mvn --version'
-					//sh 'docker version'
+					sh 'docker version'
 					echo "Build"
 					echo "$PATH"
 					echo "BUILD_NUMBER - $env.BUILD_NUMBER"
@@ -40,7 +40,7 @@ pipeline {
 			}
 			stage('Package') {
 				steps {
-					sh "mvn package"
+					sh "mvn package -DskipTests" //jar file
 				}
 			}
 			stage('Build Docker Image') {
@@ -54,7 +54,7 @@ pipeline {
 			stage('Push Docker Image') {
 				steps {
 					script {
-						docker.withRegistry('', 'dockerhub'){
+						docker.withRegistry('', 'dockerhub'){ //se alege id-ul pus din Jenkins
 							dockerImage.push();
 							dockerImage.push('latest');
 						}

@@ -2,7 +2,7 @@
 pipeline {
 		//agent any
 		agent { 
-			any { image 'maven:3.8.6-jdk-11' }
+			docker { image 'maven:3.8.6-jdk-11' }
 		}
 		stages {
 			stage('Build') {

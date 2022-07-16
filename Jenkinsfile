@@ -1,7 +1,10 @@
 //DECLARATIVE
 pipeline {
 		//agent any
-		agent { docker { image 'maven:3.6.3' } }
+		agent { docker 
+					label 'docker'
+					image 'maven:3.6.3'
+		}
 		stages {
 			stage('Build') {
 				steps {
@@ -27,7 +30,7 @@ pipeline {
 			success {
 				echo "I run when you are succesful."
 			}
-			success {
+			failure {
 				echo "I run when you fail."
 			}
 		}
